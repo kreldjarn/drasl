@@ -31,12 +31,14 @@ public:
     void getNearest(float x, float y, int n,
                     std::vector<AudioBuffer<float> > &b_vec,
                     std::vector<float> &dist) const;
+    // DEBUG
+    std::vector<loc_buf> j_vec;
 private:
     std::random_device rd;
     std::mt19937 gen;
     std::uniform_real_distribution<> dis;
     
-    std::vector<loc_buf> j_vec;
+    //std::vector<loc_buf> j_vec;
     size_t next_elem;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JunkYard)

@@ -10,15 +10,19 @@
 
 #include "Junk.h"
 
-Junk::Junk(JunkYard *junkyard, float x, float y, int size) : x(x), y(y), slop(2.) {
-    std::cout << "Junkyard pointer: " << junkyard << std::endl;
+Junk::Junk(JunkYard *junkyard, float x, float y, int size) : x(x), y(y), size(size), slop(1000.) {
+    std::cout << "Junk::Junk(): Junkyard pointer: " << junkyard << std::endl;
+    if (junkyard) std::cout << "Junk::Junk(): j_vec.size(): " << junkyard->j_vec.size() << std::endl;
     gen = std::mt19937(rd());
     c_dis = std::chi_squared_distribution<>(4);
     u_dis = std::uniform_real_distribution<>(0, 1.);
+    triggered.assign(size, 0);
     if (junkyard) setSize(size);
 }
 
-Junk::~Junk() {}
+Junk::~Junk() {
+    std::cout << "Junk::~Junk(): Destructor" << std::endl;
+}
 
 Junk::Junk(const Junk &other) {
     x = other.x; y = other.y; size = other.size;
@@ -98,9 +102,9 @@ Junk& Junk::operator=(Junk &&other) {
 
 void Junk::setSize(int size) {
     std::cout << "Junk::setSize()" << std::endl;
-    size = size;
+    this->size = size;
+    std::cout << "Junk::setSize(): size=" << this->size << std::endl;
     b_vec.reserve(size);
-    move(x, y);
     std::cout << "Junk::setSize(): exiting" << std::endl;
 }
 
@@ -109,12 +113,6 @@ void Junk::move(float x, float y) {
     std::cout << "Junk::move()" << std::endl;
     x = x;
     y = y;
-    junkyard->getNearest(x, y, size, b_vec, d_vec);
-    // If there were fewer than size elements in junkyard
-    size = (int)b_vec.size();
-    std::cout << "Junk::move(): b_vec is " << size << " elements" << std::endl;
-    setGain();
-    setOffset();
     std::cout << "Junk::move(): exiting" << std::endl;
 }
 
@@ -148,30 +146,55 @@ void Junk::setOffset() {
     std::cout << "Junk::setOffset(): exiting" << std::endl;
 }
 
+void Junk::populate(JunkYard &junkyard) {
+    std::cout << "Junk::populate()" << std::endl;
+    std::cout << "Junk::populate(): size=" << size << std::endl;
+    junkyard.getNearest(x, y, size, b_vec, d_vec);
+    size = (int)b_vec.size();
+    std::cout << "Junk::populate(): size=" << size << std::endl;
+    // If there were fewer than size elements in junkyard
+    std::cout << "Junk::populate(): b_vec is " << size << " elements" << std::endl;
+    setGain();
+    setOffset();
+    std::cout << "Junk::populate(): exiting" << std::endl;
+}
+
 void Junk::trigger() {
     std::cout << "Junk::trigger()" << std::endl;
     triggered.assign(size, 1);
+    std::cout << "triggered: ";
+    for (const auto tr : triggered) {
+        std::cout << tr << " ";
+    }
+    std::cout << std::endl;
     elapsed.assign(offset.begin(), offset.end());
     std::cout << "Junk::trigger(): exiting" << std::endl;
 }
 
 void Junk::triggerAt(int time) {
     std::cout << "Junk::triggerAt()" << std::endl;
+    std::cout << "Junk::triggerAt(): size=" << size << std::endl;
     trigger();
     for (auto el : elapsed) el -= time;
+    std::cout << "Junk::triggerAt(): elapsed:";
+    for (auto el : elapsed) std::cout << el << " ";
+    std::cout << std::endl;
     std::cout << "Junk::triggerAt(): exiting" << std::endl;
 }
 
 void Junk::processBlock(AudioBuffer<float> &buffer) {
     int d_len = buffer.getNumSamples();
     for (int i = 0; i < size; ++i) {
-        int len = buffer.getNumSamples();
+        int len = d_len;
         
         if (!triggered[i]) {
             // Sample has finished playing
             // =================================================
+            
             continue;
         } else if (elapsed[i] < 0 && -elapsed[i] <= d_len) {
+            std::cout << "Junk::processBlock(): " << i << " starting" << std::endl;
+            std::cout << -elapsed[i] << " " << d_len << std::endl;
             // Sample starts playing in the current buffer frame
             // =================================================
             len = std::min(std::min(d_len, b_vec[i].getNumSamples()), d_len+elapsed[i]);
@@ -179,7 +202,8 @@ void Junk::processBlock(AudioBuffer<float> &buffer) {
             // Assume both buffer and sample have at least two channels
             buffer.addFrom(0, -elapsed[i], b_vec[i], 0, 0, len);
             buffer.addFrom(1, -elapsed[i], b_vec[i], 1, 0, len);
-        } else {
+        } else if (elapsed[i] >= 0) {
+            std::cout << "Junk::processBlock(): " << i << " playing" << std::endl;
             // Sample has already started
             // =================================================
             len = std::min(b_vec[i].getNumSamples() - elapsed[i], buffer.getNumSamples());
@@ -191,6 +215,7 @@ void Junk::processBlock(AudioBuffer<float> &buffer) {
         
         elapsed[i] += len;
         if (elapsed[i] >= b_vec[i].getNumSamples()) {
+            std::cout << "Junk::processBlock(): " << i << " stopping" << std::endl;
             // Stop sample once it's played through once
             triggered[i] = 0;
         }

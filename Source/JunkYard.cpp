@@ -50,6 +50,8 @@ void JunkYard::clear() {
 void JunkYard::getNearest(float x, float y, int n,
                           std::vector<AudioBuffer<float> > &b_vec,
                           std::vector<float> &d_vec) const {
+    std::cout << "JunkYard::getNearest(): address " << this << std::endl;
+    std::cout << "JunkYard::getNearest(): n=" << n << std::endl;
     std::cout << "JunkYard::getNearest(): j_vec.size(): " << j_vec.size() << std::endl;
     // Generate indices and sort them in increasing distance from x, y
     std::vector<int> idx(j_vec.size());
@@ -59,7 +61,7 @@ void JunkYard::getNearest(float x, float y, int n,
     for (const auto i : idx) {
         std::cout << i << " ";
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
     std::sort(idx.begin(), idx.end(),
               std::bind(compare_dist_from_xy, std::placeholders::_1,
                         std::placeholders::_2, j_vec, x, y));
@@ -68,13 +70,15 @@ void JunkYard::getNearest(float x, float y, int n,
     for (const auto i : idx) {
         std::cout << i << " ";
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
+    
     // Populate b_vec with pointers to the first min(n, j_vec.size()) buffers
     n = std::min(n, (int)j_vec.size());
     b_vec.clear();
     d_vec.clear();
     b_vec.reserve(n);
     d_vec.reserve(n);
+    std::cout << "JunkYard::getNearest(): copying" << std::endl;
     for (int i = 0; i < n; ++i) {
         b_vec.push_back(j_vec[i].second);
         d_vec.push_back(dist(j_vec[i].first, x, y));

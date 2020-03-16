@@ -109,8 +109,8 @@ void DraslAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
         buf.clear();
         delete reader;
     }
-    
-    junk = Junk(&junkyard, 0., 0., 5);
+    junk.setSize(5);
+    junk.populate(junkyard);
     std::cout << "DraslAudioProcessor::prepareToPlay(): exiting" << std::endl;
 }
 
@@ -160,6 +160,7 @@ void DraslAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
     MidiMessage m;
     for (MidiBuffer::Iterator i (midiMessages); i.getNextEvent (m, time);) {
         if (m.isNoteOn()) {
+            std::cout << "DraslAudioProcessor::processBlock(): Midi note on" << std::endl;
             junk.triggerAt(time);
         }
     }

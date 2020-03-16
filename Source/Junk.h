@@ -30,7 +30,6 @@ public:
     Junk& operator=(const Junk &other);
     Junk& operator=(Junk &&other);
     
-    
     void setSize(int size);
     // (x, y) \in [-1, 1]
     void move(float x, float y);
@@ -38,6 +37,8 @@ public:
     void setSlop(float slop);
     void setGain();
     void setOffset();
+    
+    void populate(JunkYard &junkyard);
     
     void trigger();
     void triggerAt(int time);
