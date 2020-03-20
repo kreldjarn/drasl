@@ -59,7 +59,9 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     //==============================================================================
-    float note_on_vel;
+    void setSize(int size);
+    void setSlop(float slop);
+    void setGainMultiplier(float gain);
     
 private:
     JunkYard junkyard;

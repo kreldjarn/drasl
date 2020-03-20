@@ -109,7 +109,7 @@ void DraslAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
         buf.clear();
         delete reader;
     }
-    junk.setSize(5);
+    junk.setSize(10);
     junk.populate(junkyard);
     std::cout << "DraslAudioProcessor::prepareToPlay(): exiting" << std::endl;
 }
@@ -198,4 +198,17 @@ void DraslAudioProcessor::setStateInformation (const void* data, int sizeInBytes
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new DraslAudioProcessor();
+}
+
+void DraslAudioProcessor::setSize(int size) {
+    junk.setSize(size);
+    junk.populate(junkyard);
+}
+
+void DraslAudioProcessor::setSlop(float slop) {
+    junk.setSlop(slop);
+}
+
+void DraslAudioProcessor::setGainMultiplier(float gain) {
+    junk.setGainMultiplier(gain);
 }

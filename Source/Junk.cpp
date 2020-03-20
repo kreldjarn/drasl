@@ -10,7 +10,7 @@
 
 #include "Junk.h"
 
-Junk::Junk(JunkYard *junkyard, float x, float y, int size) : x(x), y(y), size(size), slop(1000.) {
+Junk::Junk(JunkYard *junkyard, float x, float y, int size) : x(x), y(y), size(size), gainMultiplier(1.), slop(1000.) {
     std::cout << "Junk::Junk(): Junkyard pointer: " << junkyard << std::endl;
     if (junkyard) std::cout << "Junk::Junk(): j_vec.size(): " << junkyard->j_vec.size() << std::endl;
     gen = std::mt19937(rd());
@@ -120,6 +120,7 @@ void Junk::setSlop(float slop) {
     std::cout << "Junk::setSlop()" << std::endl;
     slop = slop;
     setOffset();
+    std::cout << "slop: " << std::endl;
     std::cout << "Junk::setSlop(): exiting" << std::endl;
 }
 
@@ -127,9 +128,16 @@ void Junk::setGain() {
     std::cout << "Junk::setGain()" << std::endl;
     auto b_gen = std::bind(std::uniform_int_distribution<>(0,1), gen);
     for (auto buf : b_vec) {
-        buf.applyGain(b_gen(), 0, buf.getNumSamples(), u_dis(gen));
+        int channel = b_gen();
+        buf.applyGain(channel, 0, buf.getNumSamples(), u_dis(gen)*gainMultiplier);
+        buf.applyGain(std::abs(channel - 1), 0, buf.getNumSamples(), gainMultiplier);
     }
     std::cout << "Junk::setGain(): exiting" << std::endl;
+}
+
+void Junk::setGainMultiplier(float gain) {
+    gainMultiplier = gain;
+    setGain();
 }
 
 void Junk::setOffset() {
@@ -190,7 +198,6 @@ void Junk::processBlock(AudioBuffer<float> &buffer) {
         if (!triggered[i]) {
             // Sample has finished playing
             // =================================================
-            
             continue;
         } else if (elapsed[i] < 0 && -elapsed[i] <= d_len) {
             std::cout << "Junk::processBlock(): " << i << " starting" << std::endl;

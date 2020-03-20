@@ -77,6 +77,10 @@
 			isa = PBXBuildFile;
 			fileRef = 4D5EB93D4E5D5B18CECA8383;
 		};
+		33320A9586E1008B76A553F2 = {
+			isa = PBXBuildFile;
+			fileRef = 9E5CC49A4068035AC5516BB0;
+		};
 		5F88E5DD0D6D6B34598CA601 = {
 			isa = PBXBuildFile;
 			fileRef = ACA3AD40CC75F12BC13A1B72;
@@ -84,6 +88,10 @@
 		DE51BFDEF29A3ED938B214ED = {
 			isa = PBXBuildFile;
 			fileRef = 531ED0FB26EBBEE4A6D4646B;
+		};
+		F289F96D3B7CA7F2541A38A1 = {
+			isa = PBXBuildFile;
+			fileRef = 37565FBA35C7518E8EDFC7A6;
 		};
 		9FE8042DCD4BEDC907C3C598 = {
 			isa = PBXBuildFile;
@@ -180,6 +188,13 @@
 			path = "../../JuceLibraryCode/include_juce_audio_utils.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
+		0687A6BD1F60FD24796C02A2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Slicer.h;
+			path = ../../Source/Slicer.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		165254EA8FAA07977E79CEF3 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -229,6 +244,20 @@
 			path = "/Applications/JUCE/modules/juce_core";
 			sourceTree = "<absolute>";
 		};
+		37565FBA35C7518E8EDFC7A6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Slicer.cpp;
+			path = ../../Source/Slicer.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		3A21D5FB52EC01760C168262 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Interface.h;
+			path = ../../Source/Interface.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		3AA297524ECB9BD955230144 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -271,25 +300,11 @@
 			path = RecentFilesMenuTemplate.nib;
 			sourceTree = "SOURCE_ROOT";
 		};
-		505C135276B672F86EEC9BCB = {
-			isa = PBXFileReference;
-			lastKnownFileType = file;
-			name = "juce_data_structures";
-			path = "/Applications/JUCE/modules/juce_data_structures";
-			sourceTree = "<absolute>";
-		};
 		52B784345C00CD72EE489264 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = JuceHeader.h;
 			path = ../../JuceLibraryCode/JuceHeader.h;
-			sourceTree = "SOURCE_ROOT";
-		};
-		531ED0FB26EBBEE4A6D4646B = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = Junk.cpp;
-			path = ../../Source/Junk.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		5682027D09F4293E471223CE = {
@@ -319,6 +334,20 @@
 			includeInIndex = 0;
 			path = drasl.app;
 			sourceTree = "BUILT_PRODUCTS_DIR";
+		};
+		505C135276B672F86EEC9BCB = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_data_structures";
+			path = "/Applications/JUCE/modules/juce_data_structures";
+			sourceTree = "<absolute>";
+		};
+		531ED0FB26EBBEE4A6D4646B = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Junk.cpp;
+			path = ../../Source/Junk.cpp;
+			sourceTree = "SOURCE_ROOT";
 		};
 		5504DC94913DAE1ECE7C31B3 = {
 			isa = PBXFileReference;
@@ -444,6 +473,13 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = AppConfig.h;
 			path = ../../JuceLibraryCode/AppConfig.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		9E5CC49A4068035AC5516BB0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Interface.cpp;
+			path = ../../Source/Interface.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		9F9E9187BD970E6646ADD59A = {
@@ -638,11 +674,15 @@
 		2793CC1823F397BD1E51CC59 = {
 			isa = PBXGroup;
 			children = (
+				9E5CC49A4068035AC5516BB0,
+				3A21D5FB52EC01760C168262,
 				9595A6C6806DA9427F8595EE,
 				ACA3AD40CC75F12BC13A1B72,
 				D250ABB887D0757A06AD173F,
 				87CCD7040978C409F871EEB2,
 				531ED0FB26EBBEE4A6D4646B,
+				0687A6BD1F60FD24796C02A2,
+				37565FBA35C7518E8EDFC7A6,
 				E563231E6F2C7FF0BD1E52CF,
 				798E77C9CAC03D714837FACC,
 				CBA6EEC75C2410A812E60BCE,
@@ -1523,8 +1563,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33320A9586E1008B76A553F2,
 				5F88E5DD0D6D6B34598CA601,
 				DE51BFDEF29A3ED938B214ED,
+				F289F96D3B7CA7F2541A38A1,
 				9FE8042DCD4BEDC907C3C598,
 				9CDBCBC5BCA14A32FE279AD4,
 				903D29773F29F2D780F4C158,

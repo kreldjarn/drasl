@@ -17,7 +17,8 @@ DraslAudioProcessorEditor::DraslAudioProcessorEditor (DraslAudioProcessor& p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (200, 200);
+    addAndMakeVisible(interface);
+    setSize (600, 400);
 }
 
 DraslAudioProcessorEditor::~DraslAudioProcessorEditor()
@@ -28,18 +29,18 @@ DraslAudioProcessorEditor::~DraslAudioProcessorEditor()
 void DraslAudioProcessorEditor::paint (Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-
-    g.setColour (Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Midi Volume", 0, 0, getWidth(), 30, Justification::centred, 1);
+    interface.paint(g);
 }
 
 void DraslAudioProcessorEditor::resized()
 {
-    midi_volume.setBounds(40, 30, 20, getHeight()-60);
+    interface.resized();
 }
 
 void DraslAudioProcessorEditor::sliderValueChanged(Slider *slider) {
-    processor.note_on_vel = midi_volume.getValue();
+    interface.sliderValueChanged(slider);
+    std::cout << "DraslAudioProcessorEditor::sliderValueChanged()" << std::endl;
+    processor.setSize(interface.getSize());
+    processor.setSlop(interface.getSlop());
+    processor.setGainMultiplier(interface.getGain());
 }

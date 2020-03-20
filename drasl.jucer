@@ -4,11 +4,15 @@
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="PsVsuF" name="drasl">
     <GROUP id="{088230C2-3439-249E-2D4E-FEC6F3E718AD}" name="Source">
+      <FILE id="Ncy8BP" name="Interface.cpp" compile="1" resource="0" file="Source/Interface.cpp"/>
+      <FILE id="hMoiY0" name="Interface.h" compile="0" resource="0" file="Source/Interface.h"/>
       <FILE id="rGRhgR" name="Common.h" compile="0" resource="0" file="Source/Common.h"/>
       <FILE id="oxpm5x" name="JunkYard.cpp" compile="1" resource="0" file="Source/JunkYard.cpp"/>
       <FILE id="Cqt7fV" name="JunkYard.h" compile="0" resource="0" file="Source/JunkYard.h"/>
       <FILE id="epXV1o" name="Junk.h" compile="0" resource="0" file="Source/Junk.h"/>
       <FILE id="GGIXWF" name="Junk.cpp" compile="1" resource="0" file="Source/Junk.cpp"/>
+      <FILE id="zAsvVR" name="Slicer.h" compile="0" resource="0" file="Source/Slicer.h"/>
+      <FILE id="IAHnLP" name="Slicer.cpp" compile="1" resource="0" file="Source/Slicer.cpp"/>
       <FILE id="oW2NrY" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="bv2KLd" name="PluginProcessor.h" compile="0" resource="0"
